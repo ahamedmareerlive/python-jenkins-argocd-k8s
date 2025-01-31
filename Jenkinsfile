@@ -44,7 +44,7 @@ pipeline {
         
         stage('Checkout K8S manifest SCM') {
             steps {
-                git credentialsId: 'your-git-credentials-id', 
+                git credentialsId: 'github-credentials', 
                     url: 'https://github.com/ahamedmareerlive/deploy.git', 
                     branch: 'main'
             }
@@ -53,7 +53,7 @@ pipeline {
         stage('Update K8S manifest & push to Repo') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'your-git-credentials-id', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
                         cat deploy/deploy.yaml
                         sed -i "s|image: mareerahamed/cicde2e:.*|image: mareerahamed/cicde2e:${BUILD_NUMBER}|g" deploy/deploy.yaml
