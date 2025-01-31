@@ -10,7 +10,7 @@ pipeline {
         
         stage('Checkout') {
             steps {
-                git credentialsId: 'your-git-credentials-id', 
+                git credentialsId: 'github-credentials', 
                     url: 'https://github.com/ahamedmareerlive/python-jenkins-argocd-k8s.git', 
                     branch: 'main'
             }
@@ -30,7 +30,7 @@ pipeline {
         stage('Push the artifacts') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                         sh '''
                         echo "Logging in to Docker Hub..."
                         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
